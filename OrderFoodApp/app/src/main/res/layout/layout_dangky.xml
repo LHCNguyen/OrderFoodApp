@@ -42,9 +42,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView"
-        tools:ignore="MissingConstraints">
+        tools:ignore="ExtraText,MissingConstraints">
 
         <EditText
+            android:id="@+id/edtTenDN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -56,10 +57,10 @@
             android:singleLine="true"
             android:textColor="@color/black"
             android:textColorHint="@color/gray"
-
             />
 
         <EditText
+            android:id="@+id/edtMatKhau"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -79,6 +80,7 @@
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/radGioiTinhNam"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
@@ -86,6 +88,7 @@
                 android:text="Nam" />
 
             <RadioButton
+                android:id="@+id/radGioiTinhNu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
@@ -94,6 +97,7 @@
         </RadioGroup>
 
         <EditText
+            android:id="@+id/edtNgaySinh"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_margin="10dp"
@@ -107,6 +111,7 @@
             android:textColorHint="@color/gray" />
 
         <EditText
+            android:id="@+id/edtCCCD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -126,14 +131,15 @@
         android:layout_width="match_parent"
         android:layout_height="190dp"
         android:orientation="horizontal"
-        android:gravity="center"
+        android:gravity="top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="135dp"
         tools:ignore="MissingConstraints">
 
         <Button
+            android:id="@+id/btnDongY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -143,6 +149,7 @@
             android:text="@string/dongY" />
 
         <Button
+            android:id="@+id/btnThoat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

@@ -1,5 +1,6 @@
 package com.example.orderfoodapp.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -79,6 +80,21 @@ public class CreateDatabase extends SQLiteOpenHelper {
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
 
+    }
+
+    public long insertNhanVien(String tenDN, String matKhau, String gioiTinh, String ngaySinh, String CCCD){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(TB_NHANVIEN_TENDN, tenDN);
+        values.put(TB_NHANVIEN_MATKHAU, matKhau);
+        values.put(TB_NHANVIEN_GIOITINH, gioiTinh);
+        values.put(TB_NHANVIEN_NGAYSINH, ngaySinh);
+        values.put(TB_NHANVIEN_CCCD, CCCD);
+
+        long result = db.insert(TB_NHANVIEN, null, values);
+        db.close();
+        return result;
     }
 
     public  SQLiteDatabase open() {
