@@ -8,4 +8,6 @@
     <string name="thoat">Thoát</string>
     <string name="dangKy">Đăng Ký</string>
     <string name="xacNhanMatKhau">Xác nhận mật khẩu</string>
+    <string name="dangNhap">Đăng Nhập</string>
+
 </resources>
