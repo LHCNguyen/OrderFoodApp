@@ -7,213 +7,201 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/size16dp"
-    android:paddingTop="@dimen/size16dp"
-    android:paddingRight="@dimen/size16dp"
-    android:paddingBottom="@dimen/size16dp"
-    tools:context=".DangKyActivity">
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size32dp"
-        android:padding="@dimen/size10dp"
-        android:text="@string/dangKy"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/textSize30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-<!--        android:id="@+id/textView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/size32dp"-->
-<!--        android:padding="@dimen/size10dp"-->
-<!--        android:text="@string/dangKy"-->
-<!--        android:textColor="@android:color/black"-->
-<!--        android:textSize="@dimen/textSize30sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        tools:ignore="MissingConstraints" />-->
-
-    <LinearLayout
-        android:id="@+id/lnKhungDangKy"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/size16dp"
-        android:layout_marginEnd="@dimen/size16dp"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/size10dp"
-        android:layout_marginTop="@dimen/size50dp"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-<!--        android:id="@+id/lnKhungDangKy"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_centerVertical="true"-->
-<!--        android:layout_marginStart="@dimen/size16dp"-->
-<!--        android:layout_marginTop="@dimen/size92dp"-->
-<!--        android:layout_marginEnd="@dimen/size16dp"-->
-<!--        android:orientation="vertical"-->
-<!--        android:paddingTop="@dimen/size10dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/textView"-->
-<!--        tools:ignore="ExtraText,MissingConstraints">-->
+        android:padding="@dimen/size16dp">
 
-        <EditText
-            android:id="@+id/edtTenDN"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size10dp"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/user"
-            android:drawablePadding="@dimen/size10dp"
-            android:hint="@string/tenDangNhap"
-            android:padding="@dimen/size10dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/gray"
-            />
-
-        <EditText
-            android:id="@+id/edtMatKhau"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size10dp"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/password"
-            android:drawablePadding="@dimen/size10dp"
-            android:hint="@string/nhapMatKhau"
-            android:inputType="textPassword"
-            android:padding="@dimen/size10dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
-
-        <EditText
-            android:id="@+id/edtXacNhanMatKhau"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size10dp"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/password"
-            android:drawablePadding="@dimen/size10dp"
-            android:hint="@string/xacNhanMatKhau"
-            android:inputType="textPassword"
-            android:padding="@dimen/size10dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
-
-        <RadioGroup
-            android:id="@+id/radGroupGioiTinh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radGioiTinhNam"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/size50dp"
-                android:textSize="@dimen/textSize20sp"
-                android:text="Nam" />
-
-            <RadioButton
-                android:id="@+id/radGioiTinhNu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/size50dp"
-                android:textSize="@dimen/textSize20sp"
-                android:text="Nữ" />
-        </RadioGroup>
-
-        <EditText
-            android:id="@+id/edtNgaySinh"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size56dp"
-            android:layout_margin="@dimen/size10dp"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/calendar"
-            android:drawablePadding="@dimen/size10dp"
-            android:hint="@string/nhapNgaySinh"
-            android:padding="@dimen/size10dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
-
-        <EditText
-            android:id="@+id/edtCCCD"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size10dp"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/idcard"
-            android:drawablePadding="@dimen/size10dp"
-            android:hint="@string/nhapCCCD"
-            android:inputType="number"
-            android:padding="@dimen/size10dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="top"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="@dimen/size150dp">
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:gravity="top"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:layout_marginBottom="@dimen/size200dp"-->
-<!--        tools:ignore="MissingConstraints">-->
-
-        <Button
-            android:id="@+id/btnDongY"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size10dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/lime"
+            android:layout_marginTop="@dimen/size32dp"
             android:padding="@dimen/size10dp"
-            android:text="@string/dongY" />
+            android:text="@string/dangKy"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-        <Button
-            android:id="@+id/btnThoat"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/lnKhungDangKy"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size10dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/organe"
-            android:padding="@dimen/size10dp"
-            android:text="@string/thoat" />
+            android:layout_marginTop="@dimen/size50dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/edtTenDN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size10dp"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/user"
+                android:drawablePadding="@dimen/size10dp"
+                android:hint="@string/tenDangNhap"
+                android:padding="@dimen/size10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/edtMatKhau"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size10dp"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/password"
+                android:drawablePadding="@dimen/size10dp"
+                android:hint="@string/nhapMatKhau"
+                android:inputType="textPassword"
+                android:padding="@dimen/size10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"/>
+
+            <EditText
+                android:id="@+id/edtXacNhanMatKhau"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size10dp"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/password"
+                android:drawablePadding="@dimen/size10dp"
+                android:hint="@string/xacNhanMatKhau"
+                android:inputType="textPassword"
+                android:padding="@dimen/size10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"/>
+
+            <RadioGroup
+                android:id="@+id/radGroupGioiTinh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radGioiTinhNam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size50dp"
+                    android:textSize="@dimen/textSize20sp"
+                    android:text="Nam"/>
+
+                <RadioButton
+                    android:id="@+id/radGioiTinhNu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size50dp"
+                    android:textSize="@dimen/textSize20sp"
+                    android:text="Nữ"/>
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/edtNgaySinh"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size56dp"
+                android:layout_margin="@dimen/size10dp"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/calendar"
+                android:drawablePadding="@dimen/size10dp"
+                android:hint="@string/nhapNgaySinh"
+                android:padding="@dimen/size10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"/>
+
+            <EditText
+                android:id="@+id/edtCCCD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size10dp"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/idcard"
+                android:drawablePadding="@dimen/size10dp"
+                android:hint="@string/nhapCCCD"
+                android:inputType="number"
+                android:padding="@dimen/size10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/size16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <Button
+                android:id="@+id/btnDongY"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size10dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/lime"
+                android:padding="@dimen/size10dp"
+                android:text="@string/dongY"/>
+
+            <Button
+                android:id="@+id/btnThoat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size10dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/organe"
+                android:padding="@dimen/size10dp"
+                android:text="@string/thoat"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+
+
+
+<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:orientation="horizontal"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:gravity="top"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:layout_constraintBottom_toBottomOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_marginBottom="@dimen/size200dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        tools:ignore="MissingConstraints">&ndash;&gt;-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnDongY"-->
+<!--            android:layout_width="@dimen/size0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="@dimen/size10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:backgroundTint="@color/lime"-->
+<!--            android:padding="@dimen/size10dp"-->
+<!--            android:text="@string/dongY"-->
+<!--            tools:ignore="MissingConstraints" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnThoat"-->
+<!--            android:layout_width="@dimen/size0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="@dimen/size10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:backgroundTint="@color/organe"-->
+<!--            android:padding="@dimen/size10dp"-->
+<!--            android:text="@string/thoat"-->
+<!--            tools:ignore="MissingConstraints" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--</ScrollView>-->
