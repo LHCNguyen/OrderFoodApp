@@ -5,22 +5,25 @@
     android:background="@color/white">
 
     <TextView
+        android:id="@+id/tvDangNhap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textSize30sp"
         android:hint="@string/dangNhap"
         android:layout_above="@+id/lnKhungDangNhap"
         android:layout_centerHorizontal="true"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/size16dp"/>
 
     <ImageView
+        android:id="@+id/ivSignupImage"
         android:layout_width="@dimen/size200dp"
         android:layout_height="@dimen/size200dp"
-        android:src="@drawable/picturesignup_transparent"
+        android:src="@drawable/nguoinauan"
+        android:layout_above="@id/tvDangNhap"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/size20dp"/>
 
-        android:layout_alignLeft="@id/lnKhungDangNhap"
-        android:layout_marginTop="@dimen/size150dp"
-        android:layout_marginRight="@dimen/size300dp"/>
     <LinearLayout
         android:id="@+id/lnKhungDangNhap"
         android:layout_width="match_parent"
