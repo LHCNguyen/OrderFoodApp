@@ -2,8 +2,12 @@ package com.example.orderfoodapp.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class CreateDatabase extends SQLiteOpenHelper {
 
@@ -82,12 +86,15 @@ public class CreateDatabase extends SQLiteOpenHelper {
 
     }
 
+    //Hàm thêm nhân viên
     public long insertNhanVien(String tenDN, String matKhau, String gioiTinh, String ngaySinh, String CCCD){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        String matKhauDaBam = bamMatKhau(matKhau);
+        
         values.put(TB_NHANVIEN_TENDN, tenDN);
-        values.put(TB_NHANVIEN_MATKHAU, matKhau);
+        values.put(TB_NHANVIEN_MATKHAU, matKhauDaBam);
         values.put(TB_NHANVIEN_GIOITINH, gioiTinh);
         values.put(TB_NHANVIEN_NGAYSINH, ngaySinh);
         values.put(TB_NHANVIEN_CCCD, CCCD);
@@ -95,6 +102,44 @@ public class CreateDatabase extends SQLiteOpenHelper {
         long result = db.insert(TB_NHANVIEN, null, values);
         db.close();
         return result;
+    }
+
+    //Hàm băm mật khẩu
+    private String bamMatKhau(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //Hàm kiểm tra đăng nhập
+    public boolean kiemTraDangNhap(String tenDangNhap, String matKhau){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Đây là mật khẩu người dùng nhập. Lấy mật khẩu người dùng nhập đi băm để so sánh dưới database
+        String matKhauNDN = bamMatKhau(matKhau);
+
+        //Sau khi băm ta bắt đầu truy vấn để kiểm tra tên ĐN và mật khẩu
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TB_NHANVIEN + " WHERE " + TB_NHANVIEN_TENDN +
+                " =? AND " + TB_NHANVIEN_MATKHAU + " =? ", new String[]{tenDangNhap,matKhauNDN});
+
+        boolean tonTai = (cursor.getCount() > 0);
+        cursor.close();
+        db.close();
+        return tonTai;
     }
 
     public  SQLiteDatabase open() {

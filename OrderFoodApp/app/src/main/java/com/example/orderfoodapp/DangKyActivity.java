@@ -23,12 +23,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+
+
 public class DangKyActivity extends AppCompatActivity {
 
     private EditText edtTenDN, edtMatKhau, edtNgaySinh, edtCCCD, edtXacNhanMatKhau;
     private Button btnDongY, btnThoat;
     private RadioButton radGioiTinhNam, radGioiTinhNu;
     private RadioGroup radGroupGioiTinh;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +137,9 @@ public class DangKyActivity extends AppCompatActivity {
                 //Kiểm tra xem co chọn giới tính chưa
                 else if (radGroupGioiTinh.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(DangKyActivity.this, "Vui lòng chọn giới tính", Toast.LENGTH_SHORT).show();
-                } else if (cccd.length() != 12 || cccd.matches("\\d+")) {
+                }
+                //ràng buộc cccd là so và đúng 12 số
+                else if (cccd.length() != 12 || !cccd.matches("\\d+")) {
                     Toast.makeText(DangKyActivity.this, "CCCD phải là số và có đúng 12 ký tự", Toast.LENGTH_SHORT).show();
                 }
                 //Kiểm tra xem ngày sinh có đúng định dạng không
@@ -140,6 +148,7 @@ public class DangKyActivity extends AppCompatActivity {
                 }
                 // Tất cả hợp lệ thì lưu vao database
                 else {
+
                     // Tạo đối tượng ContentValues để lưu dữ liệu
                     ContentValues values = new ContentValues();
                     values.put(CreateDatabase.TB_NHANVIEN_TENDN, tenDN);
