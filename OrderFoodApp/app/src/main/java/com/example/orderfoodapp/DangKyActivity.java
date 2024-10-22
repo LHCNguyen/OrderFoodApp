@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ import java.util.Date;
 
 public class DangKyActivity extends AppCompatActivity {
 
-    private EditText edtTenDN, edtMatKhau, edtNgaySinh, edtCCCD, edtXacNhanMatKhau;
+    private EditText edtTenDN, edtMatKhau, edtNgaySinh, edtEmail, edtXacNhanMatKhau;
     private Button btnDongY, btnThoat;
     private RadioButton radGioiTinhNam, radGioiTinhNu;
     private RadioGroup radGroupGioiTinh;
@@ -53,7 +54,7 @@ public class DangKyActivity extends AppCompatActivity {
         edtMatKhau = findViewById(R.id.edtMatKhau);
         edtXacNhanMatKhau = findViewById(R.id.edtXacNhanMatKhau);
         edtNgaySinh = findViewById(R.id.edtNgaySinh);
-        edtCCCD = findViewById(R.id.edtCCCD);
+        edtEmail = findViewById(R.id.edtEmail);
         radGroupGioiTinh = findViewById(R.id.radGroupGioiTinh);
         radGioiTinhNam = findViewById(R.id.radGioiTinhNam);
         radGioiTinhNu = findViewById(R.id.radGioiTinhNu);
@@ -104,11 +105,11 @@ public class DangKyActivity extends AppCompatActivity {
                 String matKhau = edtMatKhau.getText().toString();
                 String xacNhanMatKhau = edtXacNhanMatKhau.getText().toString();
                 String ngaySinh = edtNgaySinh.getText().toString();
-                String cccd = edtCCCD.getText().toString();
+                String email = edtEmail.getText().toString().trim();
                 String gioiTinh = radGioiTinhNam.isChecked() ?"Nam" : "Nữ";
 
                 //Kiểm tra xem nếu thiếu thông tin sẽ không được tiếp tục
-                if (tenDN.isEmpty() || matKhau.isEmpty() || ngaySinh.isEmpty() || cccd.isEmpty()) {
+                if (tenDN.isEmpty() || matKhau.isEmpty() || ngaySinh.isEmpty() || email.isEmpty()) {
                     Toast.makeText(DangKyActivity.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 }
                 //Kiểm tra độ dài tên đăng nhập có từ 6 cho tới 20 ký tự khong
@@ -139,8 +140,8 @@ public class DangKyActivity extends AppCompatActivity {
                     Toast.makeText(DangKyActivity.this, "Vui lòng chọn giới tính", Toast.LENGTH_SHORT).show();
                 }
                 //ràng buộc cccd là so và đúng 12 số
-                else if (cccd.length() != 12 || !cccd.matches("\\d+")) {
-                    Toast.makeText(DangKyActivity.this, "CCCD phải là số và có đúng 12 ký tự", Toast.LENGTH_SHORT).show();
+                else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(DangKyActivity.this, "EMAIL không đúng định dạng", Toast.LENGTH_SHORT).show();
                 }
                 //Kiểm tra xem ngày sinh có đúng định dạng không
                 else if (!isValidDate(ngaySinh)) {
@@ -155,15 +156,20 @@ public class DangKyActivity extends AppCompatActivity {
                     values.put(CreateDatabase.TB_NHANVIEN_MATKHAU, matKhau);
                     values.put(CreateDatabase.TB_NHANVIEN_GIOITINH, gioiTinh);
                     values.put(CreateDatabase.TB_NHANVIEN_NGAYSINH, ngaySinh);
-                    values.put(CreateDatabase.TB_NHANVIEN_CCCD, cccd);
+                    values.put(CreateDatabase.TB_NHANVIEN_EMAIL, email);
 
-                    // Thêm dữ liệu vào bảng NHANVIEN
-                    long result = createDatabase.insertNhanVien(tenDN, matKhau, gioiTinh, ngaySinh, cccd);
-                    if (result != -1) {
-                        Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(DangKyActivity.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
+                    if (createDatabase.kiemTraTenDangNhap(tenDN)) {
+                        Toast.makeText(DangKyActivity.this, "Tên đăng nhập đã tồn tại, vui lòng chọn tên khác", Toast.LENGTH_SHORT).show();
+                    }else {
+                        // Thêm dữ liệu vào bảng NHANVIEN
+                        long result = createDatabase.insertNhanVien(tenDN, matKhau, gioiTinh, ngaySinh, email);
+                        if (result != -1) {
+                            Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(DangKyActivity.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
+                        }
                     }
+
 
                 }
             }

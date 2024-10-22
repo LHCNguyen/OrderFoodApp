@@ -3,7 +3,7 @@
     <string name="tenDangNhap">Tên đăng nhập</string>
     <string name="nhapMatKhau">Nhập mật khẩu</string>
     <string name="nhapNgaySinh">Nhập ngày sinh</string>
-    <string name="nhapCCCD">Nhập số CCCD</string>
+    <string name="nhapEmail">Nhập địa chỉ email</string>
     <string name="dongY">Đồng ý</string>
     <string name="thoat">Thoát</string>
     <string name="dangKy">Đăng Ký</string>
