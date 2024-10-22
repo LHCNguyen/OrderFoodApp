@@ -9,5 +9,9 @@
     <string name="dangKy">Đăng Ký</string>
     <string name="xacNhanMatKhau">Xác nhận mật khẩu</string>
     <string name="dangNhap">Đăng Nhập</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_hoadon">Hóa Đơn</string>
+    <string name="nav_lichsu">Lịch Sử Đơn Hàng</string>
+    <string name="nav_baocao">Báo cáo cuối ngày</string>
 
 </resources>
