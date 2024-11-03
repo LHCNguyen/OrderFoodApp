@@ -152,17 +152,17 @@ public class DangKyActivity extends AppCompatActivity {
 
                     // Tạo đối tượng ContentValues để lưu dữ liệu
                     ContentValues values = new ContentValues();
-                    values.put(CreateDatabase.TB_NHANVIEN_TENDN, tenDN);
-                    values.put(CreateDatabase.TB_NHANVIEN_MATKHAU, matKhau);
-                    values.put(CreateDatabase.TB_NHANVIEN_GIOITINH, gioiTinh);
-                    values.put(CreateDatabase.TB_NHANVIEN_NGAYSINH, ngaySinh);
-                    values.put(CreateDatabase.TB_NHANVIEN_EMAIL, email);
+                    values.put(CreateDatabase.TB_USER_TENDN, tenDN);
+                    values.put(CreateDatabase.TB_USER_MATKHAU, matKhau);
+                    values.put(CreateDatabase.TB_USER_GIOITINH, gioiTinh);
+                    values.put(CreateDatabase.TB_USER_NGAYSINH, ngaySinh);
+                    values.put(CreateDatabase.TB_USER_EMAIL, email);
 
                     if (createDatabase.kiemTraTenDangNhap(tenDN)) {
                         Toast.makeText(DangKyActivity.this, "Tên đăng nhập đã tồn tại, vui lòng chọn tên khác", Toast.LENGTH_SHORT).show();
                     }else {
                         // Thêm dữ liệu vào bảng NHANVIEN
-                        long result = createDatabase.insertNhanVien(tenDN, matKhau, gioiTinh, ngaySinh, email);
+                        long result = createDatabase.insertUSER(tenDN, matKhau, gioiTinh, ngaySinh, email);
                         if (result != -1) {
                             Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                         } else {
@@ -193,5 +193,4 @@ public class DangKyActivity extends AppCompatActivity {
             return false;
         }
     }
-
 }
