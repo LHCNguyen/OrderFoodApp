@@ -10,6 +10,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="@string/nav_lichsu"
+        android:textSize="@dimen/textSize30sp"
+        android:gravity="center_horizontal"
+        android:layout_gravity="top|center_horizontal"
+        android:textStyle="bold"/>
 
 </FrameLayout>
