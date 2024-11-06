@@ -128,13 +128,13 @@ public class CreateDatabase extends SQLiteOpenHelper {
                 + TB_GOIMON_TONGSOMON + " TEXT ,"
                 + TB_GOIMON_TONGTIEN + " TEXT, "
                 + TB_GOIMON_THUAVAT + " TEXT, "
-                + TB_GOIMON_MAPHUONGTHUCTHANHTOAN + "INTEGER)";
+                + TB_GOIMON_MAPHUONGTHUCTHANHTOAN + " INTEGER )";
 
         String tbCHITETGOIMON = "CREATE TABLE " + TB_CHITIETGOIMON + " ( "
                 + TB_CHITIETGOIMON_MAGOIMON + " INTEGER, "
                 + TB_CHITIETGOIMON_MAMONAN + " INTEGER, "
                 + TB_CHITIETGOIMON_SOLUONG + " INTEGER, "
-                + TB_CHITIETGOIMON_TRANGTHAI + " TETX,"
+                + TB_CHITIETGOIMON_TRANGTHAI + " TEXT,"
                 + "PRIMARY KEY ( " + TB_CHITIETGOIMON_MAMONAN + "," + TB_CHITIETGOIMON_MAGOIMON + "))";
 
         String tbROLE = "CREATE TABLE " + TB_ROLE + " ( "
@@ -148,8 +148,10 @@ public class CreateDatabase extends SQLiteOpenHelper {
                 + TB_NGUYENLIEU_KHOILUONG + " TEXT, "
                 + TB_NGUYENLIEU_MOTTA + " TETX )";
 
-        String tbNGUYENLIEUMONAN = "CREATE TABLE " + TB_NGUYENLIEUMONAN+ " ( "
-                + TB_NGUYENLIEUMONAN_MANLMA + " INTEGER PRIMARY KEY AUTOINCREMENT, " + " PRIMARY KEY ( " + TB_NGUYENLIEUMONAN_MANGUYENLIEU + " , " + TB_NGUYENLEUMONAN_MAMONAN + "))";
+        String tbNGUYENLIEUMONAN = "CREATE TABLE " + TB_NGUYENLIEUMONAN + " ( "
+                + TB_NGUYENLIEUMONAN_MANGUYENLIEU + " INTEGER, "
+                + TB_NGUYENLEUMONAN_MAMONAN + " INTEGER, "
+                + "PRIMARY KEY (" + TB_NGUYENLIEUMONAN_MANGUYENLIEU + ", " + TB_NGUYENLEUMONAN_MAMONAN + "))";
 
         String tbPHUONGTHUCTHANHTOAN = "CREATE TABLE " + TB_PHUONGTHUCTHANHTOAN + " ( "
                 + TB_PHUONGTHUCTHANHTOAN_MAPTTH + " TEXT, "

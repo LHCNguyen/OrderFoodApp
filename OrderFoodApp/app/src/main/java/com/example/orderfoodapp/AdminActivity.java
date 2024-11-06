@@ -68,16 +68,16 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             }
 
         } else if (id == R.id.nav_baocao) {
-            if(currentFragment != FRAGMENT_ORDER){
-                replaceFragment(new OrderFragment());
-                toolbar.setTitle("Báo cáo");
-                currentFragment = FRAGMENT_ORDER;
-            }
-        } else if (id == R.id.nav_hoadon) {
             if(currentFragment != FRAGMENT_REPORT){
                 replaceFragment(new ReportFragment());
-                toolbar.setTitle("Hóa đơn");
+                toolbar.setTitle("Báo cáo");
                 currentFragment = FRAGMENT_REPORT;
+            }
+        } else if (id == R.id.nav_hoadon) {
+            if(currentFragment != FRAGMENT_ORDER){
+                replaceFragment(new OrderFragment());
+                toolbar.setTitle("Hóa đơn");
+                currentFragment = FRAGMENT_ORDER;
             }
         } else if (id == R.id.nav_lichsu) {
             if(currentFragment != FRAGMENT_HISTORY){

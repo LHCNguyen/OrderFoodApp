@@ -12,9 +12,14 @@
     <string name="nav_home">Home</string>
     <string name="nav_hoadon">Hóa Đơn</string>
     <string name="nav_lichsu">Lịch Sử Đơn Hàng</string>
-    <string name="nav_baocao">Báo cáo cuối ngày</string>
+    <string name="nav_baocao">Báo Cáo Cuối Ngày</string>
     <string name="nav_open">Drawer Open</string>
     <string name="nav_close">Drawer Close</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Quản Lý Bàn</string>
+    <string name="bill">Hóa Đơn Bàn Ăn</string>
+
+
+
+
 
 </resources>
