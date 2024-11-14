@@ -6,9 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.bumptech.glide.util.Util;
+import com.example.orderfoodapp.Model.User;
+import com.example.orderfoodapp.Utils.PasswordUtils;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+
 
 public class CreateDatabase extends SQLiteOpenHelper {
 
@@ -74,7 +78,6 @@ public class CreateDatabase extends SQLiteOpenHelper {
     public static String TB_NGUYENLIEU_KHOILUONG = "KHOILUONG";
     public static String TB_NGUYENLIEU_MOTTA = "MOTA";
 
-    public static String TB_NGUYENLIEUMONAN_MANLMA = "MANLMA";
     public static String TB_NGUYENLEUMONAN_MAMONAN = "MAMONAN";
     public static String TB_NGUYENLIEUMONAN_MANGUYENLIEU = "MANGUYENLIEU";
 
@@ -83,7 +86,7 @@ public class CreateDatabase extends SQLiteOpenHelper {
 
 
     public CreateDatabase(Context context) {
-        super(context, "OrderFoodApp", null, 3);
+        super(context, "OrderFoodApp", null, 5);
     }
 
     @Override
@@ -108,9 +111,9 @@ public class CreateDatabase extends SQLiteOpenHelper {
 
         String tbMONAN = "CREATE TABLE " + TB_MONAN + " ( "
                 + TB_MONAN_MAMONAN + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + TB_MONAN_TENMONAN + " TEXT, "
+                + TB_MONAN_TENMONAN + " TEXT NOT NULL, "
                 + TB_MONAN_MALOAI + " INTEGER, "
-                + TB_MONAN_GIATIEN + " TEXT,"
+                + TB_MONAN_GIATIEN + " TEXT NOT NULL,"
                 + TB_MONAN_HINHANH + " TEXT, "
                 + TB_MONAN_MANGUYENLIEU + " INTEGER)";
 
@@ -167,6 +170,32 @@ public class CreateDatabase extends SQLiteOpenHelper {
         db.execSQL(tbNGUYENLIEU);
         db.execSQL(tbNGUYENLIEUMONAN);
         db.execSQL(tbPHUONGTHUCTHANHTOAN);
+        themTaiKhoanMacDinh(db);
+
+        // Thêm dữ liệu mặc định cho bảng ROLE
+        db.execSQL("INSERT INTO ROLE (CHUCVU, MOTA) VALUES ('Admin', 'Quản trị hệ thống')");
+        db.execSQL("INSERT INTO ROLE (CHUCVU, MOTA) VALUES ('Nhân viên', 'Nhân viên phục vụ')");
+        db.execSQL("INSERT INTO ROLE (CHUCVU, MOTA) VALUES ('Khách hàng', 'Khách hàng sử dụng dịch vụ')");
+
+        // Thêm dữ liệu mặc định cho bảng PHUONGTHUCTHANHTOAN
+        db.execSQL("INSERT INTO PHUONGTHUCTHANHTOAN (NAME) VALUES ('Tiền mặt')");
+        db.execSQL("INSERT INTO PHUONGTHUCTHANHTOAN (NAME) VALUES ('Thẻ tín dụng')");
+        db.execSQL("INSERT INTO PHUONGTHUCTHANHTOAN (NAME) VALUES ('Chuyển khoản ngân hàng')");
+
+        // Thêm dữ liệu mặc định cho bảng LOAIMONAN
+        db.execSQL("INSERT INTO LOAIMONAN (TENLOAI, MOTA) VALUES ('Món chính', 'Các món ăn chính')");
+        db.execSQL("INSERT INTO LOAIMONAN (TENLOAI, MOTA) VALUES ('Đồ uống', 'Các loại đồ uống')");
+        db.execSQL("INSERT INTO LOAIMONAN (TENLOAI, MOTA) VALUES ('Tráng miệng', 'Các món tráng miệng')");
+
+        // Thêm dữ liệu mặc định cho bảng BANAN
+        db.execSQL("INSERT INTO BANAN (TENBAN, TINHTRANG) VALUES ('Bàn 1', 'Trống')");
+        db.execSQL("INSERT INTO BANAN (TENBAN, TINHTRANG) VALUES ('Bàn 2', 'Trống')");
+        db.execSQL("INSERT INTO BANAN (TENBAN, TINHTRANG) VALUES ('Bàn 3', 'Đang sử dụng')");
+
+        // Thêm dữ liệu mặc định cho bảng NGUYENLIEU
+        db.execSQL("INSERT INTO NGUYENLIEU (TENNGUYENLIEU, KHOILUONG, MOTA) VALUES ('Thịt bò', '100 kg', 'Thịt bò tươi')");
+        db.execSQL("INSERT INTO NGUYENLIEU (TENNGUYENLIEU, KHOILUONG, MOTA) VALUES ('Rau xà lách', '50 kg', 'Rau sạch')");
+        db.execSQL("INSERT INTO NGUYENLIEU (TENNGUYENLIEU, KHOILUONG, MOTA) VALUES ('Gạo', '200 kg', 'Gạo thơm')");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
@@ -186,70 +215,35 @@ public class CreateDatabase extends SQLiteOpenHelper {
 
     }
 
-    //Hàm thêm nhân viên
-    public long insertUSER(String tenDN, String matKhau, String gioiTinh, String ngaySinh, String email){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+    private void themTaiKhoanMacDinh(SQLiteDatabase db) {
+        // Mã hóa mật khẩu
+        String matKhauAdmin = PasswordUtils.bamMatKhau("admin123456789");
+        String matKhauStaff = PasswordUtils.bamMatKhau("staff123456789");
 
-        String matKhauDaBam = bamMatKhau(matKhau);
+        ContentValues adminValues = new ContentValues();
+        adminValues.put(TB_USER_TENDN, "admin");
+        adminValues.put(TB_USER_MATKHAU, matKhauAdmin);
+        adminValues.put(TB_USER_GIOITINH, "Nam");
+        adminValues.put(TB_USER_NGAYSINH, "01/01/1990");
+        adminValues.put(TB_USER_EMAIL, "admin@example.com");
+        adminValues.put(TB_USER_MAROLE, 1); // Admin
+        adminValues.put(TB_USER_SDT, "0123456789");
+        adminValues.put(TB_USER_FULLNAME, "Admin User");
 
-        values.put(TB_USER_TENDN, tenDN);
-        values.put(TB_USER_MATKHAU, matKhauDaBam);
-        values.put(TB_USER_GIOITINH, gioiTinh);
-        values.put(TB_USER_NGAYSINH, ngaySinh);
-        values.put(TB_USER_EMAIL, email);
+        ContentValues staffValues = new ContentValues();
+        staffValues.put(TB_USER_TENDN, "staff");
+        staffValues.put(TB_USER_MATKHAU, matKhauStaff);
+        staffValues.put(TB_USER_GIOITINH, "Nữ");
+        staffValues.put(TB_USER_NGAYSINH, "01/01/1995");
+        staffValues.put(TB_USER_EMAIL, "staff@example.com");
+        staffValues.put(TB_USER_MAROLE, 2); // Nhân viên
+        staffValues.put(TB_USER_SDT, "0987654321");
+        staffValues.put(TB_USER_FULLNAME, "Staff User");
 
-        long result = db.insert(TB_USER, null, values);
-        db.close();
-        return result;
-    }
+        // Thêm admin và staff vào bảng USER
+        db.insertWithOnConflict(TB_USER, null, adminValues, SQLiteDatabase.CONFLICT_REPLACE);
+        db.insertWithOnConflict(TB_USER, null, staffValues, SQLiteDatabase.CONFLICT_REPLACE);
 
-    //Hàm băm mật khẩu
-    private String bamMatKhau(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes());
-            StringBuilder hexString = new StringBuilder();
-
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
-            }
-
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    //Hàm này dùng để kiểm tra tài khoản này có tồn tại ở lúc đăng ký không
-    public boolean kiemTraTenDangNhap(String tenDN) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TB_USER + " WHERE " + TB_USER_TENDN + " =?", new String[]{tenDN});
-        boolean tonTai = (cursor.getCount() > 0);
-        cursor.close();
-        db.close();
-        return tonTai;
-    }
-
-    //Hàm kiểm tra đăng nhập xem có đúng tài khoản và mật khẩu không
-    public boolean kiemTraDangNhap(String tenDangNhap, String matKhau){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        //Đây là mật khẩu người dùng nhập. Lấy mật khẩu người dùng nhập đi băm để so sánh dưới database
-        String matKhauNDN = bamMatKhau(matKhau);
-
-        //Sau khi băm ta bắt đầu truy vấn để kiểm tra tên ĐN và mật khẩu
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TB_USER + " WHERE " + TB_USER_TENDN +
-                " =? AND " + TB_USER_MATKHAU + " =? ", new String[]{tenDangNhap,matKhauNDN});
-
-        boolean tonTai = (cursor.getCount() > 0);
-        cursor.close();
-        db.close();
-        return tonTai;
     }
 
     public  SQLiteDatabase open() {

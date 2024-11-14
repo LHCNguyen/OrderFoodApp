@@ -1,6 +1,5 @@
 package com.example.orderfoodapp;
 
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,20 +11,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.orderfoodapp.Database.CreateDatabase;
+import com.example.orderfoodapp.Database.UserDAO;
+import com.example.orderfoodapp.Model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-
-
 
 public class DangKyActivity extends AppCompatActivity {
 
@@ -33,23 +26,17 @@ public class DangKyActivity extends AppCompatActivity {
     private Button btnDongY, btnThoat;
     private RadioButton radGioiTinhNam, radGioiTinhNu;
     private RadioGroup radGroupGioiTinh;
-
-
+    private UserDAO userDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.layout_dangky);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        CreateDatabase createDatabase = new CreateDatabase(this);
-        createDatabase.open();
 
-        //liên kết các view bên layout
+        // Khởi tạo UserDAO
+        userDAO = new UserDAO(this);
+
+        // Liên kết các view với layout
         edtTenDN = findViewById(R.id.edtTenDN);
         edtMatKhau = findViewById(R.id.edtMatKhau);
         edtXacNhanMatKhau = findViewById(R.id.edtXacNhanMatKhau);
@@ -61,20 +48,18 @@ public class DangKyActivity extends AppCompatActivity {
         btnDongY = findViewById(R.id.btnDongY);
         btnThoat = findViewById(R.id.btnThoat);
 
-        //Thêm kí tự "/" khi người dùng nhập ngày sinh. Điều này giúp người dùng không cần nhan dấu "/"
+        // Thêm kí tự "/" vào ngày sinh để giúp người dùng không phải nhập dấu "/"
         edtNgaySinh.addTextChangedListener(new TextWatcher() {
             private String current = "";
             private String ddmmyyyy = "ddmmyyyy";
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().equals(current)){
-                    String clean = s.toString().replaceAll("[^\\d]","");
+                if (!s.toString().equals(current)) {
+                    String clean = s.toString().replaceAll("[^\\d]", "");
                     StringBuilder formatted = new StringBuilder();
                     if (clean.length() > 0) {
                         formatted.append(clean.substring(0, Math.min(2, clean.length()))); // ngày
@@ -93,11 +78,10 @@ public class DangKyActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
+        // Xử lý sự kiện khi người dùng nhấn nút đồng ý đăng ký
         btnDongY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,74 +90,66 @@ public class DangKyActivity extends AppCompatActivity {
                 String xacNhanMatKhau = edtXacNhanMatKhau.getText().toString();
                 String ngaySinh = edtNgaySinh.getText().toString();
                 String email = edtEmail.getText().toString().trim();
-                String gioiTinh = radGioiTinhNam.isChecked() ?"Nam" : "Nữ";
+                String gioiTinh = radGioiTinhNam.isChecked() ? "Nam" : "Nữ";
+                int maRole = 3;
 
-                //Kiểm tra xem nếu thiếu thông tin sẽ không được tiếp tục
+                // Kiểm tra các điều kiện hợp lệ
                 if (tenDN.isEmpty() || matKhau.isEmpty() || ngaySinh.isEmpty() || email.isEmpty()) {
                     Toast.makeText(DangKyActivity.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 }
-                //Kiểm tra độ dài tên đăng nhập có từ 6 cho tới 20 ký tự khong
+                // Kiểm tra tên đăng nhập hợp lệ
                 else if (tenDN.length() < 6 || tenDN.length() > 20) {
                     Toast.makeText(DangKyActivity.this, "Tên đăng nhập phải từ 6 đến 20 ký tự", Toast.LENGTH_SHORT).show();
                 }
-                //Tên đăng nhập không được co khoảng trắng
                 else if (tenDN.contains(" ")) {
                     Toast.makeText(DangKyActivity.this, "Tên đăng nhập không được có khoảng cách", Toast.LENGTH_SHORT).show();
                 }
-                //Kiểm tra xem mật khẩu có dưới 8 ky tự không
+                // Kiểm tra mật khẩu hợp lệ
                 else if (matKhau.length() < 8) {
-                    Toast.makeText(DangKyActivity.this, "Mật khẩu phải có ít nhất 8 ký tự ", Toast.LENGTH_SHORT).show();
-                }
-                else if (matKhau.contains(" ")) {
+                    Toast.makeText(DangKyActivity.this, "Mật khẩu phải có ít nhất 8 ký tự", Toast.LENGTH_SHORT).show();
+                } else if (matKhau.contains(" ")) {
                     Toast.makeText(DangKyActivity.this, "Mật khẩu không được có khoảng cách", Toast.LENGTH_SHORT).show();
                 }
-                //Kiem tra xem nhap lại mật khẩu có chính xac khong
+                // Kiểm tra mật khẩu xác nhận
                 else if (!matKhau.equals(xacNhanMatKhau)) {
                     Toast.makeText(DangKyActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
                 }
-                //Kiểm tra nhập lại mật khẩu có khoảng trắng không
                 else if (xacNhanMatKhau.contains(" ")) {
                     Toast.makeText(DangKyActivity.this, "Mật khẩu xác nhận không được có khoảng cách", Toast.LENGTH_SHORT).show();
                 }
-                //Kiểm tra xem co chọn giới tính chưa
+                // Kiểm tra giới tính
                 else if (radGroupGioiTinh.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(DangKyActivity.this, "Vui lòng chọn giới tính", Toast.LENGTH_SHORT).show();
                 }
-                //ràng buộc cccd là so và đúng 12 số
+                // Kiểm tra email hợp lệ
                 else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     Toast.makeText(DangKyActivity.this, "EMAIL không đúng định dạng", Toast.LENGTH_SHORT).show();
                 }
-                //Kiểm tra xem ngày sinh có đúng định dạng không
+                // Kiểm tra định dạng ngày sinh
                 else if (!isValidDate(ngaySinh)) {
                     Toast.makeText(DangKyActivity.this, "Ngày sinh không đúng định dạng (dd/MM/yyyy)", Toast.LENGTH_SHORT).show();
                 }
-                // Tất cả hợp lệ thì lưu vao database
+                // Nếu tất cả hợp lệ, tiến hành đăng ký
                 else {
+                    // Tạo đối tượng User
+                    User user = new User(tenDN, matKhau, gioiTinh, ngaySinh, email, maRole);
 
-                    // Tạo đối tượng ContentValues để lưu dữ liệu
-                    ContentValues values = new ContentValues();
-                    values.put(CreateDatabase.TB_USER_TENDN, tenDN);
-                    values.put(CreateDatabase.TB_USER_MATKHAU, matKhau);
-                    values.put(CreateDatabase.TB_USER_GIOITINH, gioiTinh);
-                    values.put(CreateDatabase.TB_USER_NGAYSINH, ngaySinh);
-                    values.put(CreateDatabase.TB_USER_EMAIL, email);
-
-                    if (createDatabase.kiemTraTenDangNhap(tenDN)) {
+                    if (userDAO.kiemTraTenDangNhap(tenDN)) {
                         Toast.makeText(DangKyActivity.this, "Tên đăng nhập đã tồn tại, vui lòng chọn tên khác", Toast.LENGTH_SHORT).show();
-                    }else {
-                        // Thêm dữ liệu vào bảng NHANVIEN
-                        long result = createDatabase.insertUSER(tenDN, matKhau, gioiTinh, ngaySinh, email);
+                    } else {
+                        // Thêm người dùng vào cơ sở dữ liệu
+                        long result = userDAO.insertUSER(user);
                         if (result != -1) {
                             Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(DangKyActivity.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
-
-
                 }
             }
         });
+
+        // Xử lý sự kiện khi người dùng nhấn nút thoát
         btnThoat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,10 +158,10 @@ public class DangKyActivity extends AppCompatActivity {
         });
     }
 
-    //Hàm kểm tra định dạng ngày sinh
+    // Kiểm tra định dạng ngày tháng
     private boolean isValidDate(String date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setLenient(false); // không cho phép các ngày không hợp lệ
+        sdf.setLenient(false); // Không cho phép các ngày không hợp lệ
         try {
             Date parsedDate = sdf.parse(date);
             return parsedDate != null;
