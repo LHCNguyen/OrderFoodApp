@@ -74,7 +74,6 @@ public class CreateDatabase extends SQLiteOpenHelper {
     public static String TB_NGUYENLIEU_KHOILUONG = "KHOILUONG";
     public static String TB_NGUYENLIEU_MOTTA = "MOTA";
 
-    public static String TB_NGUYENLIEUMONAN_MANLMA = "MANLMA";
     public static String TB_NGUYENLEUMONAN_MAMONAN = "MAMONAN";
     public static String TB_NGUYENLIEUMONAN_MANGUYENLIEU = "MANGUYENLIEU";
 
@@ -146,7 +145,7 @@ public class CreateDatabase extends SQLiteOpenHelper {
                 + TB_NGUYENLIEU_MANGUYENLIEU + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TB_NGUYENLIEU_TENNGUYENLIEU + " TEXT ,"
                 + TB_NGUYENLIEU_KHOILUONG + " TEXT, "
-                + TB_NGUYENLIEU_MOTTA + " TETX )";
+                + TB_NGUYENLIEU_MOTTA + " TEXT )";
 
         String tbNGUYENLIEUMONAN = "CREATE TABLE " + TB_NGUYENLIEUMONAN + " ( "
                 + TB_NGUYENLIEUMONAN_MANGUYENLIEU + " INTEGER, "
