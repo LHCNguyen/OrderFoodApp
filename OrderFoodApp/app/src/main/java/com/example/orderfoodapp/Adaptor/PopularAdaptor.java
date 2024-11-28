@@ -25,23 +25,48 @@ public class PopularAdaptor extends RecyclerView.Adapter<PopularAdaptor.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View infalse= LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_popular,parent,false);
+        View infalse = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_popular, parent, false);
         return new ViewHolder(infalse);
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.titlepopular.setText(popularFood.get(position).getTitle());
-        holder.fee.setText(String.valueOf(popularFood.get(position).getFee()));
+        // Lấy đối tượng FoodDomain tại vị trí
+        FoodDomain food = popularFood.get(position);
 
+        // Thiết lập tên món ăn và giá
+        holder.titlepopular.setText(food.getTitle());
+        holder.fee.setText(String.valueOf(food.getFee()));
 
-        int drawableResourceId=holder.itemView.getContext().getResources().getIdentifier(popularFood.get(position).getPicpopular(), "drawable", holder.itemView.getContext().getPackageName());
+        String imagePath = food.getPicpopular(); // Lấy đường dẫn hình ảnh
 
-        Glide.with(holder.itemView.getContext())
-                .load(drawableResourceId)
-                .into(holder.picpopular);
+        // Kiểm tra xem imagePath có phải URL hoặc là tên tài nguyên drawable không
+        if (imagePath != null) {
+            if (imagePath.startsWith("http") || imagePath.startsWith("https")) {
+                // Nếu là URL, sử dụng Glide để tải hình ảnh
+                Glide.with(holder.itemView.getContext())
+                        .load(imagePath)
+                        .placeholder(R.drawable.nguoinauan)  // Ảnh thay thế khi đang tải
+                        .error(R.drawable.nguoinauan)              // Ảnh thay thế khi lỗi tải
+                        .into(holder.picpopular);
+            } else {
+                // Nếu là tài nguyên drawable, lấy resource ID
+                int drawableResourceId = holder.itemView.getContext().getResources()
+                        .getIdentifier(imagePath, "drawable", holder.itemView.getContext().getPackageName());
 
+                // Kiểm tra tài nguyên có hợp lệ không
+                if (drawableResourceId != 0) {
+                    holder.picpopular.setImageResource(drawableResourceId);
+                } else {
+                    // Nếu không tìm thấy tài nguyên, dùng ảnh mặc định
+                    holder.picpopular.setImageResource(R.drawable.nguoinauan);
+                }
+            }
+        } else {
+            // Nếu không có đường dẫn hình ảnh, sử dụng ảnh mặc định
+            holder.picpopular.setImageResource(R.drawable.nguoinauan);
+        }
     }
 
     @Override
@@ -49,7 +74,7 @@ public class PopularAdaptor extends RecyclerView.Adapter<PopularAdaptor.ViewHold
         return popularFood.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView titlepopular, fee;
         ImageView picpopular;
         TextView addBtn;
@@ -57,10 +82,10 @@ public class PopularAdaptor extends RecyclerView.Adapter<PopularAdaptor.ViewHold
         @SuppressLint("WrongViewCast")
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titlepopular= itemView.findViewById(R.id.titlepopular);
+            titlepopular = itemView.findViewById(R.id.titlepopular);
             fee = itemView.findViewById(R.id.fee);
             picpopular = itemView.findViewById(R.id.picpopular);
-            addBtn=itemView.findViewById(R.id.addBtn);
+            addBtn = itemView.findViewById(R.id.addBtn);
         }
     }
 }
